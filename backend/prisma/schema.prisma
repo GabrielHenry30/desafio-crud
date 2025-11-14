@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum CustomerStatusEnum {
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
+model Customer {
+  id        Int                @id @default(autoincrement())
+  name      String
+  email     String
+  document  String             @unique
+  status    CustomerStatusEnum @default(ACTIVE)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+  deletedAt DateTime?          @map("deleted_at")
+
+  @@map("customers")
+}
